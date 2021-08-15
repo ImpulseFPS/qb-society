@@ -20,26 +20,39 @@ QBCore.Functions.CreateCallback('society:server:getSocietyMoney', function(sourc
 end)
 
 RegisterNetEvent('society:server:WithdrawMoney')
-AddEventHandler('society:server:WithdrawMoney', function(a, n)
-    local src = source
+AddEventHandler('society:server:WithdrawMoney', function(pSource, a, n)
+    local src = pSource
+    if not src then return end
+
     local player = QBCore.Functions.GetPlayer(src)
     local s = GetSociety(n)
     local sMoney = tonumber(s.money)
     local amount = tonumber(a)
     local withdraw = sMoney - amount
-    exports.ghmattimysql:execute("UPDATE society SET money = '"..withdraw.."' WHERE name = '"..n.."'")
+
+    if not player then return end
+
+    if sMoney >= amount then
+        exports.ghmattimysql:execute("UPDATE society SET money = '"..withdraw.."' WHERE name = '"..n.."'")
+    end
 end)
 
 RegisterServerEvent('society:server:DepositMoney')
-AddEventHandler('society:server:DepositMoney', function(a, n)
-    local src = source
+AddEventHandler('society:server:DepositMoney', function(pSource, a, n)
+    local src = pSource
+    if not src then return end
     local player = QBCore.Functions.GetPlayer(src)
     local s = GetSociety(n)
     local sMoney = tonumber(s.money)
     local amount = tonumber(a)
     local deposit = sMoney + amount
 
-    exports.ghmattimysql:execute("UPDATE society SET money = '"..deposit.."' WHERE name = '"..n.."'")
+    if not player then return end
+
+    if player.PlayerData.money["cash"] >= amount then
+
+        exports.ghmattimysql:execute("UPDATE society SET money = '"..deposit.."' WHERE name = '"..n.."'")
+    end
 end)
 
 RegisterServerEvent('society:server:createSociety')
