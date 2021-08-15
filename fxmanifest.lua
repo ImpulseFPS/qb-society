@@ -5,6 +5,10 @@ description 'society for jobs'
 
 version '1.5.0'
 
+shared_script {
+    'config.lua',
+    '@qb-core/import.lua',
+}
 
 server_scripts {
     'server/*.lua',
@@ -13,5 +17,3 @@ server_scripts {
 client_scripts {
     'client/*.lua'
 }
-
-shared_script 'config.lua'
