@@ -1,2 +1,4 @@
-#  Society for jobs used with QBCore Framework
+#  Society for jobs used with QBCore framework
+
+
 
